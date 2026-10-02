@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Off-grid House — Живи свободно</title>
+<meta name="description" content="Автономная экосистема жизни. Полная энергетическая, водная и цифровая независимость.">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0f0d;--bg2:#111a16;--bg3:#16211c;
+  --green:#00e676;--green2:#00c853;--green-dim:rgba(0,230,118,.12);
+  --gold:#ffd54f;--text:#e0f2e9;--text2:#8fb8a5;--text3:#5a7d6d;
+  --font:'Segoe UI',system-ui,-apple-system,sans-serif;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden;line-height:1.7}
+::selection{background:var(--green);color:var(--bg)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--green-dim);border-radius:3px}
+
+a{color:var(--green);text-decoration:none}
+h1,h2,h3,h4{line-height:1.2;font-weight:800}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:100px 0;position:relative}
+.section-tag{
+  display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--green);border:1px solid var(--green-dim);
+  padding:6px 16px;border-radius:20px;margin-bottom:16px;background:var(--green-dim);
+}
+.section-title{font-size:clamp(1.8rem,4vw,3rem);margin-bottom:16px}
+.section-sub{color:var(--text2);font-size:1.1rem;max-width:600px;margin-bottom:48px}
+.btn{
+  display:inline-block;padding:16px 40px;border-radius:50px;font-weight:700;
+  font-size:1rem;cursor:pointer;transition:all .3s;border:none;text-align:center;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--green),var(--green2));color:var(--bg);
+  box-shadow:0 4px 30px rgba(0,230,118,.3);
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(0,230,118,.5)}
+.btn-outline{
+  background:transparent;color:var(--green);border:2px solid var(--green);
+}
+.btn-outline:hover{background:var(--green-dim)}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(10,15,13,.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,230,118,.08);
+}
+nav .container{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-size:1.2rem;font-weight:900;color:var(--text)}
+.logo span{color:var(--green)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:var(--text2);font-size:.85rem;font-weight:600;transition:color .3s}
+.nav-links a:hover{color:var(--green)}
+.nav-cta{padding:8px 24px;font-size:.85rem}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
+.burger span{width:24px;height:2px;background:var(--text);transition:.3s}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  background:radial-gradient(ellipse at 30% 20%,rgba(0,230,118,.06) 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 80%,rgba(0,200,83,.04) 0%,transparent 50%),
+             var(--bg);
+  padding-top:64px;
+}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:700;
+  color:var(--green);background:var(--green-dim);border:1px solid rgba(0,230,118,.2);
+  padding:6px 16px;border-radius:20px;margin-bottom:24px;letter-spacing:1px;
+}
+.hero-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(2.4rem,5.5vw,4.2rem);margin-bottom:20px;letter-spacing:-1px}
+.hero h1 .accent{color:var(--green)}
+.hero p{color:var(--text2);font-size:1.15rem;margin-bottom:36px;max-width:480px}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap}
+.hero-visual{position:relative;display:flex;justify-content:center}
+.house-icon{
+  width:320px;height:320px;position:relative;
+}
+.house-svg{width:100%;height:100%}
+.hero-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px;
+}
+.stat-card{
+  background:var(--bg2);border:1px solid rgba(0,230,118,.08);border-radius:16px;
+  padding:20px;text-align:center;
+}
+.stat-card .num{font-size:1.6rem;font-weight:900;color:var(--green)}
+.stat-card .label{font-size:.75rem;color:var(--text3);margin-top:4px}
+
+/* PROBLEM */
+.problem{background:var(--bg2)}
+.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.problem-card{
+  background:var(--bg);border:1px solid rgba(255,82,82,.12);border-radius:20px;
+  padding:32px;transition:transform .3s,border-color .3s;
+}
+.problem-card:hover{transform:translateY(-6px);border-color:rgba(255,82,82,.3)}
+.problem-card .icon{font-size:2rem;margin-bottom:16px}
+.problem-card h3{font-size:1.1rem;margin-bottom:8px}
+.problem-card p{color:var(--text2);font-size:.9rem}
+
+/* SOLUTION */
+.solution-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.solution-card{
+  background:var(--bg2);border:1px solid rgba(0,230,118,.08);border-radius:20px;
+  padding:32px;transition:transform .3s,border-color .3s,box-shadow .3s;
+}
+.solution-card:hover{
+  transform:translateY(-6px);border-color:rgba(0,230,118,.25);
+  box-shadow:0 12px 40px rgba(0,230,118,.08);
+}
+.solution-card .icon{font-size:2rem;margin-bottom:16px}
+.solution-card h3{font-size:1.1rem;margin-bottom:8px;color:var(--green)}
+.solution-card p{color:var(--text2);font-size:.9rem}
+
+/* TECH */
+.tech{background:var(--bg2)}
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px}
+.tech-card{
+  background:var(--bg);border-radius:20px;padding:32px;
+  border:1px solid rgba(0,230,118,.06);position:relative;overflow:hidden;
+}
+.tech-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--green),transparent);
+}
+.tech-card h3{font-size:1rem;margin-bottom:12px;color:var(--green)}
+.tech-card ul{list-style:none}
+.tech-card li{color:var(--text2);font-size:.85rem;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.tech-card li::before{content:'▸ ';color:var(--green)}
+
+/* SHOWCASE */
+.showcase-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.showcase-card{
+  background:var(--bg2);border-radius:20px;overflow:hidden;
+  border:1px solid rgba(0,230,118,.06);transition:transform .3s;
+}
+.showcase-card:hover{transform:scale(1.03)}
+.showcase-img{
+  height:200px;display:flex;align-items:center;justify-content:center;
+  font-size:4rem;background:linear-gradient(135deg,var(--bg3),var(--bg));
+}
+.showcase-card .info{padding:24px}
+.showcase-card h3{font-size:1rem;margin-bottom:6px}
+.showcase-card p{color:var(--text2);font-size:.85rem}
+
+/* ROADMAP */
+.roadmap{background:var(--bg2)}
+.timeline{position:relative;max-width:700px;margin:0 auto}
+.timeline::before{
+  content:'';position:absolute;left:24px;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--green),transparent);
+}
+.timeline-item{
+  position:relative;padding-left:72px;margin-bottom:48px;
+}
+.timeline-item::before{
+  content:'';position:absolute;left:16px;top:6px;width:18px;height:18px;
+  border-radius:50%;background:var(--bg);border:3px solid var(--green);
+}
+.timeline-item.active::before{background:var(--green);box-shadow:0 0 20px rgba(0,230,118,.5)}
+.timeline-item .year{font-size:.75rem;color:var(--green);font-weight:700;letter-spacing:2px}
+.timeline-item h3{font-size:1.1rem;margin:6px 0}
+.timeline-item p{color:var(--text2);font-size:.9rem}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.team-card{
+  background:var(--bg2);border-radius:20px;padding:32px;text-align:center;
+  border:1px solid rgba(0,230,118,.06);transition:transform .3s;
+}
+.team-card:hover{transform:translateY(-6px)}
+.team-avatar{
+  width:80px;height:80px;border-radius:50%;margin:0 auto 16px;
+  display:flex;align-items:center;justify-content:center;font-size:2rem;
+  background:var(--green-dim);border:2px solid rgba(0,230,118,.2);
+}
+.team-card h3{font-size:1rem;margin-bottom:4px}
+.team-card .role{color:var(--green);font-size:.8rem;font-weight:600}
+.team-card p{color:var(--text3);font-size:.8rem;margin-top:8px}
+
+/* CTA */
+.cta{
+  background:linear-gradient(135deg,rgba(0,230,118,.08),rgba(0,200,83,.03));
+  text-align:center;
+}
+.cta h2{font-size:clamp(2rem,4vw,3.2rem);margin-bottom:16px}
+.cta p{color:var(--text2);font-size:1.1rem;max-width:500px;margin:0 auto 36px}
+.cta-form{display:flex;gap:12px;max-width:480px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+.cta-form input{
+  flex:1;min-width:240px;padding:16px 24px;border-radius:50px;border:1px solid rgba(0,230,118,.2);
+  background:var(--bg);color:var(--text);font-size:1rem;outline:none;
+}
+.cta-form input:focus{border-color:var(--green)}
+.cta-form input::placeholder{color:var(--text3)}
+
+/* FOOTER */
+footer{
+  padding:40px 0;border-top:1px solid rgba(0,230,118,.06);
+  text-align:center;color:var(--text3);font-size:.8rem;
+}
+footer .socials{display:flex;gap:20px;justify-content:center;margin-bottom:16px}
+footer .socials a{color:var(--text3);font-size:1.2rem;transition:color .3s}
+footer .socials a:hover{color:var(--green)}
+
+/* ANIMATIONS */
+.fade-up{opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .hero-stats{grid-template-columns:repeat(3,1fr)}
+  .nav-links{display:none}
+  .burger{display:flex}
+  .nav-links.open{
+    display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;
+    background:var(--bg);padding:24px;gap:16px;border-bottom:1px solid var(--green-dim);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="logo">OFF-GRID<span>HOUSE</span></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#problem">Проблема</a></li>
+      <li><a href="#solution">Решение</a></li>
+      <li><a href="#tech">Технологии</a></li>
+      <li><a href="#roadmap">Дорожная карта</a></li>
+      <li><a href="#team">Команда</a></li>
+    </ul>
+    <a href="#cta" class="btn btn-primary nav-cta">Предзаказ</a>
+    <button class="burger" id="burger" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">ФАЗА 0: ГЕНЕЗИС — ИНИЦИАЛИЗАЦИЯ</div>
+        <h1>Живи <span class="accent">свободно</span>.<br>Живи офф-грид.</h1>
+        <p>Автономная экосистема жизни. Энергия, вода, еда и связь — всё своё. Ноль зависимости от городских сетей.</p>
+        <div class="hero-btns">
+          <a href="#cta" class="btn btn-primary">Присоединиться</a>
+          <a href="#solution" class="btn btn-outline">Узнать больше</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <div class="num">95%</div>
+            <div class="label">Энергоавтономия</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">90%</div>
+            <div class="label">Водная независимость</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">0</div>
+            <div class="label">Углеродный след</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="house-icon">
+          <svg class="house-svg" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Sun -->
+            <circle cx="260" cy="60" r="24" fill="none" stroke="#ffd54f" stroke-width="2" opacity=".8"/>
+            <g stroke="#ffd54f" stroke-width="2" opacity=".5">
+              <line x1="260" y1="28" x2="260" y2="18"/>
+              <line x1="260" y1="92" x2="260" y2="102"/>
+              <line x1="228" y1="60" x2="218" y2="60"/>
+              <line x1="292" y1="60" x2="302" y2="60"/>
+              <line x1="237" y1="37" x2="230" y2="30"/>
+              <line x1="283" y1="83" x2="290" y2="90"/>
+              <line x1="283" y1="37" x2="290" y2="30"/>
+              <line x1="237" y1="83" x2="230" y2="90"/>
+            </g>
+            <!-- House body -->
+            <rect x="80" y="160" width="160" height="120" rx="4" fill="none" stroke="#00e676" stroke-width="2.5"/>
+            <!-- Roof -->
+            <path d="M60 165 L160 80 L260 165" fill="none" stroke="#00e676" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Solar panels on roof -->
+            <rect x="110" y="118" width="36" height="24" rx="2" fill="rgba(0,230,118,.15)" stroke="#00e676" stroke-width="1.5" transform="rotate(-27 110 118)"/>
+            <rect x="175" y="105" width="36" height="24" rx="2" fill="rgba(0,230,118,.15)" stroke="#00e676" stroke-width="1.5" transform="rotate(27 175 105)"/>
+            <!-- Door -->
+            <rect x="140" y="220" width="40" height="60" rx="3" fill="none" stroke="#00e676" stroke-width="2"/>
+            <!-- Window left -->
+            <rect x="96" y="185" width="32" height="28" rx="3" fill="rgba(255,213,79,.1)" stroke="#ffd54f" stroke-width="1.5"/>
+            <!-- Window right -->
+            <rect x="192" y="185" width="32" height="28" rx="3" fill="rgba(255,213,79,.1)" stroke="#ffd54f" stroke-width="1.5"/>
+            <!-- Wind turbine -->
+            <line x1="40" y1="280" x2="40" y2="160" stroke="#8fb8a5" stroke-width="2"/>
+            <g stroke="#8fb8a5" stroke-width="2" stroke-linecap="round">
+              <line x1="40" y1="160" x2="40" y2="120"/>
+              <line x1="40" y1="160" x2="10" y2="185"/>
+              <line x1="40" y1="160" x2="70" y2="185"/>
+            </g>
+            <circle cx="40" cy="160" r="5" fill="#8fb8a5"/>
+            <!-- Water drop -->
+            <path d="M280 200 Q280 185 290 175 Q300 185 300 200 A10 10 0 0 1 280 200Z" fill="none" stroke="#4fc3f7" stroke-width="1.5" opacity=".7"/>
+            <!-- Ground -->
+            <line x1="20" y1="280" x2="300" y2="280" stroke="#1a3026" stroke-width="2"/>
+            <!-- Plants -->
+            <g stroke="#00c853" stroke-width="1.5" fill="none" opacity=".6">
+              <path d="M290 280 Q290 265 285 258"/>
+              <path d="M290 280 Q290 268 296 260"/>
+              <path d="M300 280 Q300 270 297 264"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="section-tag">Проблема</div>
+    <h2 class="section-title fade-up">Почему текущее жильё<br>не работает</h2>
+    <p class="section-sub fade-up">Современный дом — это заложник инфраструктуры. Каждая авария на сети — ваш личный кризис.</p>
+    <div class="problem-grid">
+      <div class="problem-card fade-up">
+        <div class="icon">⚡</div>
+        <h3>Зависимость от сети</h3>
+        <p>Отключение электричества парализует всё: отопление, воду, связь, безопасность.</p>
+      </div>
+      <div class="problem-card fade-up">
+        <div class="icon">🌍</div>
+        <h3>Углеродный след</h3>
+        <p>Здания ответственны за 40% глобальных выбросов CO₂. Обычный дом — экологическая проблема.</p>
+      </div>
+      <div class="problem-card fade-up">
+        <div class="icon">💸</div>
+        <h3>Рост стоимости</h3>
+        <p>Коммунальные платежи растут на 8-12% ежегодно. Дом становится финансовой ловушкой.</p>
+      </div>
+      <div class="problem-card fade-up">
+        <div class="icon">📡</div>
+        <h3>Хрупкость связи</h3>
+        <p>Цифровая зависимость от провайдеров. Нет сети — нет работы, нет доступа к сервисам.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution">
+  <div class="container">
+    <div class="section-tag">Решение</div>
+    <h2 class="section-title fade-up">Система Off-grid House</h2>
+    <p class="section-sub fade-up">Не просто дом. Полностью автономная экосистема с четырьмя контурами независимости.</p>
+    <div class="solution-grid">
+      <div class="solution-card fade-up">
+        <div class="icon">☀️</div>
+        <h3>Энергия</h3>
+        <p>Солнечные панели + ветрогенератор + аккумуляторный банк. 95% автономии круглый год.</p>
+      </div>
+      <div class="solution-card fade-up">
+        <div class="icon">💧</div>
+        <h3>Вода</h3>
+        <p>Сбор дождевой воды, фильтрация, рециркуляция. 90% водной самодостаточности.</p>
+      </div>
+      <div class="solution-card fade-up">
+        <div class="icon">🌿</div>
+        <h3>Еда</h3>
+        <p>Гидропоника и аквапоника внутри дома. Свежая зелень и овощи 365 дней в году.</p>
+      </div>
+      <div class="solution-card fade-up">
+        <div class="icon">🛰️</div>
+        <h3>Связь</h3>
+        <p>Starlink + mesh-сеть. Цифровая независимость и стабильный интернет в любой точке.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section class="tech" id="tech">
+  <div class="container">
+    <div class="section-tag">Технологии</div>
+    <h2 class="section-title fade-up">Интерактивные модули</h2>
+    <p class="section-sub fade-up">Каждая система управляется ИИ и отслеживается в реальном времени.</p>
+    <div class="tech-grid">
+      <div class="tech-card fade-up">
+        <h3>⚡ Энергосистема</h3>
+        <ul>
+          <li>Солнечные панели 10 кВт</li>
+          <li>Ветрогенератор 3 кВт</li>
+          <li>Аккумулятор 40 кВт·ч</li>
+          <li>ИИ-балансировка нагрузки</li>
+        </ul>
+      </div>
+      <div class="tech-card fade-up">
+        <h3>💧 Водный цикл</h3>
+        <ul>
+          <li>Сбор дождевой воды 10 000 л</li>
+          <li>Многоступенчатая фильтрация</li>
+          <li>Рециркуляция серой воды</li>
+          <li>Мониторинг качества</li>
+        </ul>
+      </div>
+      <div class="tech-card fade-up">
+        <h3>🌿 Продовольствие</h3>
+        <ul>
+          <li>Гидропонные грядки</li>
+          <li>Аквапоника (рыба + зелень)</li>
+          <li>Автоматический полив</li>
+          <li>LED-фитосвет</li>
+        </ul>
+      </div>
+      <div class="tech-card fade-up">
+        <h3>📡 Цифровая среда</h3>
+        <ul>
+          <li>Starlink терминал</li>
+          <li>Mesh Wi-Fi сеть</li>
+          <li>Локальный сервер</li>
+          <li>ИИ-ассистент дома</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE -->
+<section id="showcase">
+  <div class="container">
+    <div class="section-tag">Витрина</div>
+    <h2 class="section-title fade-up">Пространства дома</h2>
+    <p class="section-sub fade-up">Каждый модуль спроектирован для максимальной автономии и комфорта.</p>
+    <div class="showcase-grid">
+      <div class="showcase-card fade-up">
+        <div class="showcase-img">🏠</div>
+        <div class="info">
+          <h3>Жилой модуль</h3>
+          <p>40 м² умного пространства с панорамными окнами и пассивным отоплением.</p>
+        </div>
+      </div>
+      <div class="showcase-card fade-up">
+        <div class="showcase-img">🌱</div>
+        <div class="info">
+          <h3>Оранжерея</h3>
+          <p>Встроенная гидропонная ферма. До 200 кг зелени и овощей в год.</p>
+        </div>
+      </div>
+      <div class="showcase-card fade-up">
+        <div class="showcase-img">🔋</div>
+        <div class="info">
+          <h3>Технический хаб</h3>
+          <p>Аккумуляторы, инверторы, серверная. Всё под контролем ИИ.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="roadmap" id="roadmap">
+  <div class="container">
+    <div class="section-tag">Дорожная карта</div>
+    <h2 class="section-title fade-up">2026 — 2030</h2>
+    <p class="section-sub fade-up">От концепта до серийного производства.</p>
+    <div class="timeline">
+      <div class="timeline-item active fade-up">
+        <div class="year">Q4 2026</div>
+        <h3>Генезис</h3>
+        <p>Досье проекта, лендинг, формирование сообщества ранних последователей.</p>
+      </div>
+      <div class="timeline-item fade-up">
+        <div class="year">Q1 2027</div>
+        <h3>Исследование</h3>
+        <p>Анализ рынка, выбор технологий, проектирование прототипа.</p>
+      </div>
+      <div class="timeline-item fade-up">
+        <div class="year">Q3 2027</div>
+        <h3>MVP</h3>
+        <p>Первый рабочий прототип. Тестирование энергосистемы и водного цикла.</p>
+      </div>
+      <div class="timeline-item fade-up">
+        <div class="year">Q2 2028</div>
+        <h3>Демо</h3>
+        <p>Полноценный демонстрационный дом. 3D-тур, IoT-датчики, открытые тесты.</p>
+      </div>
+      <div class="timeline-item fade-up">
+        <div class="year">Q1 2029</div>
+        <h3>Запуск</h3>
+        <p>Предзаказы, сид-раунд, подготовка производственной линии.</p>
+      </div>
+      <div class="timeline-item fade-up">
+        <div class="year">Q1 2030</div>
+        <h3>Масштабирование</h3>
+        <p>Серийное производство. Первые 100 домов. Экспорт в СНГ и Европу.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="container">
+    <div class="section-tag">Команда</div>
+    <h2 class="section-title fade-up">Визионеры и строители</h2>
+    <p class="section-sub fade-up">Парадигма Человеко-ИИ парного инжиниринга.</p>
+    <div class="team-grid">
+      <div class="team-card fade-up">
+        <div class="team-avatar">👤</div>
+        <h3>Вы</h3>
+        <div class="role">Product Owner + Архитектор</div>
+        <p>Видение, стратегия, финальные решения.</p>
+      </div>
+      <div class="team-card fade-up">
+        <div class="team-avatar">🤖</div>
+        <h3>Qwen3.8</h3>
+        <div class="role">Senior Full-stack + DevOps</div>
+        <p>Код, дизайн, автоматизация, документация.</p>
+      </div>
+      <div class="team-card fade-up">
+        <div class="team-avatar">🔧</div>
+        <h3>Инженеры</h3>
+        <div class="role">Присоединяйтесь</div>
+        <p>Энергетика, строительство, IoT. Набор открыт.</p>
+      </div>
+      <div class="team-card fade-up">
+        <div class="team-avatar">💰</div>
+        <h3>Инвесторы</h3>
+        <div class="role">Присоединяйтесь</div>
+        <p>ESG-фонды, green-tech VC. Сид-раунд Q1 2029.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="container">
+    <h2 class="fade-up">Строим новый мир.<br>По одному дому за раз.</h2>
+    <p class="fade-up">Оставьте email — узнайте первыми о предзаказах, демо-туре и инвестиционных возможностях.</p>
+    <div class="cta-form fade-up">
+      <input type="email" placeholder="Ваш email" aria-label="Email">
+      <button class="btn btn-primary" onclick="alert('Спасибо! Мы свяжемся с вами.')">Подписаться</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="socials">
+      <a href="#" aria-label="GitHub">⌘</a>
+      <a href="#" aria-label="Telegram">✈</a>
+      <a href="#" aria-label="Twitter">𝕏</a>
+      <a href="#" aria-label="Figma">◈</a>
+    </div>
+    <p>© 2026 Off-grid House. Живи свободно.</p>
+  </div>
+</footer>
+
+<script>
+// Scroll animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Burger menu
+document.getElementById('burger').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>
